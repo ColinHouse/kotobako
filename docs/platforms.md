@@ -9,14 +9,18 @@
 
 ## Windows
 
-内置 OCR 需要日语语言包：
+全局快捷键（默认 `Ctrl+Shift+S`，设置页可改）已在 Windows 11 真机验证。
+
+### 内置 OCR 的日语语言包
+
+**这一版用不到**——屏幕识别在界面上不提供（[#192](https://github.com/ColinHouse/kotobako/issues/192)）。
+等它回来时需要装：
 
 ```powershell
 Add-WindowsCapability -Online -Name Language.OCR~~~ja-JP~0.0.1.0
 ```
 
 该路径已在 Windows 11 真机验证；没有语言包时自动回退到 RapidOCR（安装 `--extra ocr-onnx`）。
-全局快捷键（默认 `Ctrl+Shift+S`，设置页可改）也已在 Windows 11 真机验证。
 
 ### 游戏内覆盖层
 

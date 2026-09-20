@@ -31,7 +31,8 @@
 ### 性质 / Nature
 
 本软件是面向中文母语者的日语沉浸式学习工具。玩 Galgame、看动画、读漫画和轻小说时，
-用很低的打断成本收藏台词——原句、截图、原声一起存下来，自动整理成词卡，用 FSRS 复习。
+用很低的打断成本收藏台词——原句连同它出自哪部作品、哪一刻一起存下来（字幕配上本地视频时
+还带原声与截图），自动整理成词卡，用 FSRS 复习。
 它拥有自己的数据库，Anki 只是可选出口。
 
 - **看得懂汉字却读不出**：含汉字的词默认生成「看汉字写读音」卡，专治中文母语者最容易糊弄过去的那一类。
@@ -42,7 +43,8 @@
 
 This software is an immersion-learning tool for Japanese, built for Chinese speakers. While you
 play a visual novel, watch anime, or read manga and light novels, it captures a line at very low
-interruption cost — the sentence, its screenshot and its audio together — turns the words you did
+interruption cost — the sentence together with where it came from, and with its audio and a
+screenshot when subtitles are paired with a local video — turns the words you did
 not know into flashcards, and schedules them with FSRS. It owns its own database; Anki export
 exists, but nothing depends on it.
 
@@ -56,20 +58,21 @@ exists, but nothing depends on it.
 
 本软件通过以下流程把一句台词变成一张会到期的卡片：
 
-1. **采集：** 对你框选的屏幕区域做 OCR，或者接收文本钩子（Textractor 等）送来的原始文本。
-   两条路进来的句子后续流程完全一致。
+1. **采集：** 接收文本钩子（Textractor / Agent / LunaTranslator）送来的原始文本，或让它把台词
+   复制到剪贴板；也可以整批导入字幕、EPUB 与 mokuro 漫画。各条路进来的句子后续流程完全一致。
 2. **整理：** 对句子分词、归一化、查词典，与你已知的词比对，只留下真正的生词。
-3. **建卡：** 生词连同它出现的那一句、那张截图与那段原声一起存成卡片——**语境跟着词走**。
+3. **建卡：** 生词连同它出现的那一句存成卡片（字幕配视频时还带截图与原声）——**语境跟着词走**。
 4. **复习：** FSRS 安排到期时间，桌面或手机都能复习；一张卡只由一端安排正式复习，两端不会重复排期。
 
 The software turns a line of dialogue into a scheduled card through the following workflow:
 
-1. **Capture**: run OCR on the screen region you selected, or receive raw text from a text hooker
-   (Textractor and friends). Lines from either path are handled identically afterwards.
+1. **Capture**: receive raw text from a text hooker (Textractor, Agent, LunaTranslator), or let it
+   copy each line to the clipboard; subtitles, EPUB and mokuro manga can be imported in bulk.
+   Lines from every path are handled identically afterwards.
 2. **Sort**: tokenise and normalise the sentence, look the words up, compare against what you
    already know, and keep only the genuinely new ones.
-3. **Build**: store each new word together with the sentence it appeared in, that screenshot and
-   that audio clip — **the context travels with the word**.
+3. **Build**: store each new word together with the sentence it appeared in — plus a screenshot
+   and an audio clip when subtitles were paired with a video — **the context travels with the word**.
 4. **Review**: FSRS schedules the due dates, on desktop or phone. Each card is scheduled by one
    side only, so the two never queue the same card twice.
 
@@ -101,14 +104,14 @@ The software turns a line of dialogue into a scheduled card through the followin
 
 ## 还能做什么 / What else it does
 
-- **持续伴读：** 框好对话区域后，区域监视器盯着画面自己收句，重复台词自动去重；
-  也可以主动连接 Textractor / Agent / LunaTranslator，或让它看着剪贴板（默认关闭）。
+- **持续伴读：** 主动连接 Textractor / Agent / LunaTranslator，台词直接进收件箱，重复的自动去重；
+  不想给 Textractor 装 WebSocket 扩展，就让它把台词复制到剪贴板，打开剪贴板监听（默认关闭）。
 - **多种内容源：** 字幕（.srt/.ass）、mokuro 漫画（可带整卷页图）、EPUB 轻小说都能导进来；
   字幕配本地视频还能为每一句切出原声与中点截图，并把台词接成通勤听的凝缩音频。
 - **知道该学什么：** 读取 Yomitan 格式的词典与频率表（用户自带文件，仓库不分发），
   按作品覆盖率预习、词库按词频排序、已会词批量导入；音高重音来自 Kanjium（Uros O.）。
-- **参数跟着你走：** FSRS 优化器用你自己的复习记录算出专属参数与最优保留率；
-  OCR 引擎对比让每台机器用它认得最准的那个引擎。
+- **参数跟着你走：** FSRS 优化器用你自己的复习记录算出专属参数与最优保留率，
+  确认之前不改动现有安排。
 
 ## 使用方法 / How to Use
 
@@ -122,9 +125,9 @@ The software turns a line of dialogue into a scheduled card through the followin
 | | |
 | --- | --- |
 | [安装](docs/install.md) | 安装包、从源码跑、环境变量 |
-| [头三件事](docs/guide.md) | 上手流程，截图与 Hook 怎么选 |
+| [头三件事](docs/guide.md) | 上手流程，怎么把 Textractor 接进来 |
 | [手机复习](docs/mobile.md) | 扫码连接与局域网注意事项 |
-| [平台说明](docs/platforms.md) | macOS 授权、Windows 语言包、游戏内覆盖层 |
+| [平台说明](docs/platforms.md) | macOS 授权、Windows 说明、游戏内覆盖层 |
 | [Hook 与导入导出](docs/integrations.md) | 对外契约：Hook 协议、字幕/EPUB/mokuro 导入、Anki 导出 |
 | [架构](docs/architecture.md) | 目录结构、数据模型、怎么改代码、怎么打包 |
 
