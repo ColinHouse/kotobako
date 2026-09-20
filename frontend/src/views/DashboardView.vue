@@ -5,6 +5,7 @@ import { api } from '@/api/client'
 import type { CardStats, DictStatus, Line, Session, Source } from '@/api/types'
 import MemoryCalendar from '@/components/common/MemoryCalendar.vue'
 import SetupChecklist from '@/components/common/SetupChecklist.vue'
+import { OCR_ENABLED } from '@/features'
 import { useAppStore } from '@/stores/app'
 import { useDeviceStore } from '@/stores/device'
 import { relTime } from '@/utils/format'
@@ -201,7 +202,9 @@ async function startSession(source: Source) {
             </div>
             <p class="num mt-[5px] mb-0 type-micro text-ink-70">
               <template v-if="s.line_count">
-                {{ s.line_count }} 句 · {{ s.region ? '已设对话区域' : '未设对话区域' }}
+                {{ s.line_count }} 句<template v-if="OCR_ENABLED">
+                  · {{ s.region ? '已设对话区域' : '未设对话区域' }}
+                </template>
               </template>
               <template v-else>
                 还没开始 ·

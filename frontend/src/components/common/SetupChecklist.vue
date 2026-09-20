@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { OCR_ENABLED } from '@/features'
 import type { SetupProgress } from '@/utils/setup'
 
 defineProps<{ progress: SetupProgress }>()
@@ -25,6 +26,9 @@ const STEPS = [
     to: '/capture',
   },
 ] as const
+
+/** 框选工具跟着屏幕识别一起藏了：这一步的「去处理 →」会把人送到一个没得可框的页面。 */
+const steps = STEPS.filter((step) => step.key !== 'region' || OCR_ENABLED)
 </script>
 
 <template>
@@ -36,7 +40,7 @@ const STEPS = [
 
     <ul class="m-0 flex list-none flex-col p-0">
       <li
-        v-for="step in STEPS"
+        v-for="step in steps"
         :key="step.key"
         class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-rule py-3 last:border-0 last:pb-0"
       >

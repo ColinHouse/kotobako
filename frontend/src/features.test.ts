@@ -5,6 +5,8 @@ import { OCR_ENABLED } from './features'
 
 const captureView = readFileSync('src/views/CaptureView.vue', 'utf8')
 const settingsView = readFileSync('src/views/SettingsView.vue', 'utf8')
+const dashboardView = readFileSync('src/views/DashboardView.vue', 'utf8')
+const sourcesView = readFileSync('src/views/SourcesView.vue', 'utf8')
 
 /**
  * The first release ships without screen capture (#192). These guard the two things
@@ -32,6 +34,19 @@ describe('the first release ships without screen capture', () => {
     // which is exactly the release where it has to work. Direct children of the session
     // branch are indented six spaces; anything inside the OCR row or column is deeper.
     expect(captureView).toMatch(/\n {6}<ManualPaste /)
+  })
+
+  it.each([
+    ['the dashboard', dashboardView],
+    ['the sources list', sourcesView],
+  ])('%s does not report a capture region nobody can set', (_name, source) => {
+    // 区域只有屏幕识别用得上，也只有它的框选工具设得了。把每一处提到区域的地方
+    // 连同它前面最近的模板条件一起看：那个条件必须是这个开关。
+    const mentions = [...source.matchAll(/对话区域/g)]
+    expect(mentions.length).toBeGreaterThan(0)
+    for (const { index } of mentions) {
+      expect(source.slice(Math.max(0, index - 200), index)).toContain('OCR_ENABLED')
+    }
   })
 
   it('a captured line still has somewhere to show up', () => {

@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '@/api/client'
 import type { Coverage, Kind, Session, Source } from '@/api/types'
+import { OCR_ENABLED } from '@/features'
 import { useAppStore } from '@/stores/app'
 import { useDeviceStore } from '@/stores/device'
 import { coverageInk, coveragePercent } from '@/utils/coverage'
@@ -149,8 +150,10 @@ async function remove(s: Source) {
             </p>
             <p class="num m-0 type-micro text-ink-70">
               {{ KIND_LABEL[s.kind] }} · {{ s.line_count }} 句 · 已掌握 {{ s.known_term_count }} /
-              {{ s.term_count }} 词 ·
-              {{ s.region ? `对话区域 ${s.region.width}×${s.region.height}` : '未设置对话区域' }}
+              {{ s.term_count }} 词<template v-if="OCR_ENABLED">
+                ·
+                {{ s.region ? `对话区域 ${s.region.width}×${s.region.height}` : '未设置对话区域' }}
+              </template>
             </p>
           </div>
           <div class="flex shrink-0 items-center gap-3">

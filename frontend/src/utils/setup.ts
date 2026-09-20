@@ -1,4 +1,5 @@
 import type { Source } from '@/api/types'
+import { OCR_ENABLED } from '@/features'
 
 /** What the first-run checklist knows: three steps and whether the user is past it. */
 export interface SetupProgress {
@@ -24,7 +25,10 @@ export function setupProgress(
   const region = sources.some((source) => source.region !== null || source.window?.region != null)
   const lines = hookConnected || sources.some((source) => source.line_count > 0)
   const established = cardCount > 0 || sources.some((source) => source.line_count > 0)
-  return { dict, region, lines, allDone: dict && region && lines, established }
+  // 没有屏幕识别就没有框选工具，`region` 永远为假。让它挡着 allDone，清单就再也不会
+  // 自己收工，新用户第一眼看到的是一件做不到的事。
+  const allDone = dict && lines && (OCR_ENABLED ? region : true)
+  return { dict, region, lines, allDone, established }
 }
 
 /** All three done hides it; a real user hides it; otherwise only a dismissal does. */

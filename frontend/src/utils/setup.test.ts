@@ -39,6 +39,14 @@ describe('first-run checklist', () => {
     expect(checklistVisible(progress, false)).toBe(false)
   })
 
+  it('does not wait for a capture region nobody can set', () => {
+    // 框选工具跟着屏幕识别一起藏了（#192），这一步永远完不成。让它挡着 allDone，
+    // 清单就再也不会自己收工，新用户第一眼看到的是一件做不到的事。
+    const progress = setupProgress(true, [source({ line_count: 3 })], 0, false)
+    expect(progress.region).toBe(false)
+    expect(progress.allDone).toBe(true)
+  })
+
   it('treats a connected hook as the line source', () => {
     const progress = setupProgress(true, [source({ region })], 0, true)
     expect(progress.lines).toBe(true)
