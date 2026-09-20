@@ -55,6 +55,8 @@ export const zhCN: Messages = {
       testFail: '还是连不上，按下面的说明检查一下。',
       idleHint: '这个游戏可能勾不到，可以改用屏幕识别。',
       idleHintLink: '用屏幕识别 →',
+      idleHintFallback:
+        '这个游戏可能勾不到：让 Textractor 把台词复制到剪贴板，在下面打开剪贴板监听；或者直接手动粘贴。',
     },
     source: {
       title: '文本来源',

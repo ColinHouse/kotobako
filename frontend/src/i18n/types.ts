@@ -51,6 +51,7 @@ export interface Messages {
       testFail: string
       idleHint: string
       idleHintLink: string
+      idleHintFallback: string
     }
     source: {
       title: string

@@ -33,6 +33,13 @@ function mountWith(lines: Line[]) {
 }
 
 describe('CapturedLines', () => {
+  it('does not advertise a shortcut that cannot fire', () => {
+    // The shortcut runs an OCR collect, and the region picker that arms it is hidden
+    // in this release (#192). Without OCR this panel is the whole capture screen, so
+    // the hint would be its only piece of keyboard help -- pointing at nothing.
+    expect(mountWith([]).text()).not.toContain('收藏这句')
+  })
+
   it('shows the newest line first', () => {
     const wrapper = mountWith([line(2, '新しい台詞'), line(1, '古い台詞')])
     const rows = wrapper.findAll('li')
