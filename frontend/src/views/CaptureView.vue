@@ -278,8 +278,9 @@ const elapsed = computed(() =>
       采集需要在运行 ことばこ 的电脑上进行；手机端请使用收件箱与复习。
     </p>
 
+    <!-- 只剩一个来源时这一节没有东西可以选：Hook 的上手说明 HookStatus 自己带着。 -->
     <TextSourceGuide
-      v-if="device.kind === 'desktop'"
+      v-if="device.kind === 'desktop' && OCR_ENABLED"
       :preferred="preferredSource"
       @select="chooseSource"
     />
@@ -353,7 +354,6 @@ const elapsed = computed(() =>
           取消跟随
         </button>
         <button class="btn-quiet" :disabled="busy" @click="capture.takeShot">重新截取预览</button>
-        <ManualPaste @submit="addManual" />
         <span class="ml-auto" :class="framed ? 'text-accent' : 'text-ink-70'">
           {{
             framed
@@ -366,6 +366,9 @@ const elapsed = computed(() =>
           }}
         </span>
       </div>
+
+      <!-- 手动粘贴不是 OCR 的一部分：勾不到的时候它就是兜底，不能跟着开关一起关掉。 -->
+      <ManualPaste class="mt-5" @submit="addManual" />
 
       <div v-if="OCR_ENABLED" id="ocr-collect" class="mt-5 md:grid md:grid-cols-[3fr_1px_2fr]">
         <div class="md:pr-[26px]">

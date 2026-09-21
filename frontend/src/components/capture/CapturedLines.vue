@@ -3,6 +3,7 @@ import { nextTick, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 import { mediaUrl } from '@/api/client'
 import type { Line } from '@/api/types'
+import { OCR_ENABLED } from '@/features'
 import { relTime } from '@/utils/format'
 import { confirmShortcut } from '@/utils/platform'
 import { followsNewest } from '@/utils/scroll'
@@ -71,7 +72,11 @@ watch(
     </p>
     <RouterLink v-else :to="inboxLink" class="btn-quiet mt-4 self-start">去收件箱整理 →</RouterLink>
 
-    <div class="mt-auto border-t border-rule pt-[18px] type-micro leading-[1.9] text-ink-70">
+    <!-- 这个快捷键跑的是一次 OCR 采集，给它上膛的选区工具在这一版里是隐藏的。 -->
+    <div
+      v-if="OCR_ENABLED"
+      class="mt-auto border-t border-rule pt-[18px] type-micro leading-[1.9] text-ink-70"
+    >
       <p class="kicker m-0 text-ink-70">键盘</p>
       <p class="num m-0">{{ shortcut }} 收藏这句</p>
     </div>

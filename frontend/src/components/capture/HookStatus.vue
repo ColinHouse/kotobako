@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { wsUrl } from '@/api/client'
 import { connectHook, disconnectHook, listHooks, probeHook } from '@/api/capture'
 import type { HookState, HookStatus } from '@/api/types'
+import { OCR_ENABLED } from '@/features'
 import { t, type MessagePath } from '@/i18n'
 import { useAppStore } from '@/stores/app'
 import { relSeconds } from '@/utils/format'
@@ -179,10 +180,14 @@ onBeforeUnmount(() => window.clearInterval(poll))
       <template v-else>{{ t('capture.hook.helpOther') }}</template>
     </p>
 
-    <!-- 勾不到的游戏不是死路：把兜底路径指出来，别让人卡在这里 -->
+    <!-- 勾不到的游戏不是死路：把兜底路径指出来，别让人卡在这里。OCR 关着的时候兜底是
+         剪贴板与手动粘贴，都在这块下面，链接就没有意义了。 -->
     <p v-if="state === 'idle'" class="mt-1 mb-0 type-micro leading-relaxed text-ink-70">
-      {{ t('capture.hook.idleHint') }}
-      <a class="underline" href="#ocr-collect">{{ t('capture.hook.idleHintLink') }}</a>
+      <template v-if="OCR_ENABLED">
+        {{ t('capture.hook.idleHint') }}
+        <a class="underline" href="#ocr-collect">{{ t('capture.hook.idleHintLink') }}</a>
+      </template>
+      <template v-else>{{ t('capture.hook.idleHintFallback') }}</template>
     </p>
 
     <div v-if="showAdvanced" class="mt-2.5 border-t border-divider pt-2.5">

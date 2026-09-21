@@ -59,6 +59,8 @@ export const en: Messages & { errors: Record<ErrorCode, string> } = {
       testFail: 'Still cannot connect — check the steps below.',
       idleHint: 'This game may not be hookable — screen recognition still works.',
       idleHintLink: 'Use screen recognition →',
+      idleHintFallback:
+        'This game may not be hookable: have Textractor copy each line to the clipboard and turn on the watcher below, or paste the text yourself.',
     },
     source: {
       title: 'Text source',

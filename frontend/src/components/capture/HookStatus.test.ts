@@ -60,11 +60,15 @@ describe('HookStatus', () => {
     wrapper.unmount()
   })
 
-  it('points to screen recognition while the tool is not detected', async () => {
+  it('points to the clipboard and paste fallbacks while the tool is not detected', async () => {
     const wrapper = await mountPanel()
 
-    expect(wrapper.text()).toContain('可以改用屏幕识别')
-    expect(wrapper.find('a[href="#ocr-collect"]').exists()).toBe(true)
+    // Screen recognition is not offered in this release (#192), so the line that used
+    // to send people there would be a dead anchor -- but the dead end it was written
+    // to prevent is still real, and the clipboard watcher sits right below this.
+    expect(wrapper.text()).toContain('剪贴板')
+    expect(wrapper.text()).not.toContain('屏幕识别')
+    expect(wrapper.find('a[href="#ocr-collect"]').exists()).toBe(false)
 
     wrapper.unmount()
   })
