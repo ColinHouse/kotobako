@@ -30,7 +30,7 @@ features:
   - title: 数据不锁在别人手里
     details: SQLite 加一个媒体目录，一键备份/恢复，可导出 JSON、.apkg 或直接推给 AnkiConnect。
   - title: 本地优先
-    details: OCR 和分词都在本机跑。不填 AI 密钥完全可用；填了，才会有台词发给第三方。
+    details: 分词与识别都在本机跑。不填 AI 密钥完全可用；填了，才会有台词发给第三方。
 ---
 
 ::: warning 当前是 `v0.1.0-beta.1`
